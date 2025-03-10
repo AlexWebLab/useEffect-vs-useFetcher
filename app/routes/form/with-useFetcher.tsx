@@ -19,7 +19,7 @@ export async function action({ request }: { request: Request }) {
     return { cities };
   }
 
-  if (_action === 'submitForm' && province && city) {
+  if (_action === 'submitForm') {
     console.log('submitted province:', province);
     console.log('submitted city:', city);
     return null;
