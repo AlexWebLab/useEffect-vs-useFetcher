@@ -8,18 +8,18 @@ export async function loader() {
 
 export async function action({ request }: { request: Request }) {
   const formData = await request.formData();
-  const _action = formData.get('_action');
+  const intent = formData.get('intent');
   const province = formData.get('province') as string;
   const city = formData.get('city') as string | null;
 
-  if (_action === 'fetchCities') {
+  if (intent === 'fetchCities') {
     const cities = getCitiesByProvince(province).map(
       (city: { name: string; province: string }) => city.name
     );
     return { cities };
   }
 
-  if (_action === 'submitForm') {
+  if (intent === 'submitForm') {
     console.log('submitted province:', province);
     console.log('submitted city:', city);
     return null;
@@ -41,7 +41,7 @@ export default function Home() {
         name="province"
         onChange={(event) => {
           fetcher.submit(
-            { _action: 'fetchCities', province: event.target.value },
+            { intent: 'fetchCities', province: event.target.value },
             { method: 'post' }
           );
         }}
@@ -64,7 +64,7 @@ export default function Home() {
         ))}
       </select>
 
-      <button type="submit" name="_action" value="submitForm">
+      <button type="submit" name="intent" value="submitForm">
         Submit
       </button>
     </Form>
